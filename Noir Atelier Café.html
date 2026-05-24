@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Noir Atelier Café — Cafés artesanais preparados com precisão, sofisticação e identidade. São Paulo.">
+<meta property="og:title" content="Noir Atelier Café">
+<meta property="og:description" content="O ritual perfeito começa com um café excepcional.">
+<title>Noir Atelier Café — Experiência Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   RESET & VARIABLES
+   ============================================= */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --noir: #0B0B0B;
+  --noir-soft: #0F0E0C;
+  --cafe: #3B2A24;
+  --cafe-mid: #2A1E18;
+  --creme: #F5EFE7;
+  --bege: #D6C2A8;
+  --dourado: #B78D52;
+  --dourado-light: #D4A96A;
+  --dourado-dim: rgba(183,141,82,.18);
+  --branco: #FDFAF6;
+  --text-muted: rgba(245,239,231,.38);
+  --text-mid: rgba(245,239,231,.6);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--noir);
+  color: var(--creme);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+/* =============================================
+   CUSTOM CURSOR
+   ============================================= */
+.cursor {
+  position: fixed; width: 8px; height: 8px;
+  background: var(--dourado); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform .15s ease, opacity .3s ease;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  position: fixed; width: 36px; height: 36px;
+  border: 1px solid rgba(183,141,82,.45); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width .3s ease, height .3s ease, border-color .3s ease;
+}
+body:has(a:hover) .cursor-ring,
+body:has(button:hover) .cursor-ring {
+  width: 56px; height: 56px;
+  border-color: rgba(183,141,82,.7);
+}
+
+/* =============================================
+   NAVBAR
+   ============================================= */
+#navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  padding: 28px 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: padding .5s var(--ease-out), background .5s ease, border-color .5s ease;
+  border-bottom: 1px solid transparent;
+}
+#navbar.scrolled {
+  padding: 16px 64px;
+  background: rgba(11,11,11,.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom-color: rgba(183,141,82,.1);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px; letter-spacing: .28em;
+  text-transform: uppercase; font-weight: 300;
+  color: var(--creme);
+}
+.nav-logo span { color: var(--dourado); }
+.nav-links { display: flex; gap: 44px; list-style: none; }
+.nav-links a {
+  font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--text-muted); transition: color .3s ease;
+}
+.nav-links a:hover { color: var(--dourado); }
+.nav-right { display: flex; align-items: center; gap: 28px; }
+.nav-cta {
+  font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase;
+  padding: 11px 30px; border: 1px solid var(--dourado);
+  color: var(--dourado); transition: all .35s ease;
+}
+.nav-cta:hover { background: var(--dourado); color: var(--noir); }
+
+/* Mobile menu toggle */
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; padding: 4px; background: none; border: none;
+}
+.hamburger span {
+  display: block; width: 24px; height: 1px;
+  background: var(--creme); transition: all .4s ease;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none; position: fixed; inset: 0; z-index: 490;
+  background: rgba(11,11,11,.97);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 36px;
+  opacity: 0; transition: opacity .4s ease;
+  pointer-events: none;
+}
+.mobile-menu.open { opacity: 1; pointer-events: auto; }
+.mobile-menu a {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px; color: var(--creme);
+  transition: color .3s ease;
+}
+.mobile-menu a:hover { color: var(--dourado); }
+
+/* =============================================
+   HERO
+   ============================================= */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.hero-bg-img {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1800&q=80&auto=format&fit=crop');
+  background-size: cover; background-position: center 60%;
+  transform: scale(1.06);
+  transition: transform 8s ease;
+  will-change: transform;
+}
+.hero-bg-img.loaded { transform: scale(1); }
+.hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(11,11,11,.45) 0%, rgba(11,11,11,.2) 40%, rgba(11,11,11,.75) 75%, rgba(11,11,11,.97) 100%),
+    radial-gradient(ellipse 80% 60% at 50% 80%, rgba(59,42,36,.5) 0%, transparent 70%);
+}
+.hero-grain {
+  position: absolute; inset: 0; z-index: 2; opacity: .35; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.07'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+.hero-content {
+  position: relative; z-index: 3;
+  text-align: center; padding: 0 24px;
+  max-width: 980px;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-size: 10px; letter-spacing: .32em; text-transform: uppercase;
+  color: var(--dourado); margin-bottom: 44px;
+  opacity: 0; animation: fadeUp .8s .4s var(--ease-out) forwards;
+}
+.hero-badge::before, .hero-badge::after {
+  content: ''; display: block; width: 44px; height: 1px;
+  background: var(--dourado); opacity: .45;
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(40px, 6.5vw, 80px);
+  font-weight: 400; line-height: 1.1;
+  color: var(--creme); letter-spacing: -.015em;
+  margin-bottom: 28px;
+  opacity: 0; animation: fadeUp .9s .6s var(--ease-out) forwards;
+}
+.hero-title em { font-style: italic; color: var(--dourado-light); }
+.hero-sub {
+  font-size: clamp(14px, 1.7vw, 18px);
+  color: rgba(245,239,231,.52); letter-spacing: .04em;
+  line-height: 1.8; max-width: 540px; margin: 0 auto 56px;
+  opacity: 0; animation: fadeUp .9s .8s var(--ease-out) forwards;
+  font-weight: 300;
+}
+.hero-actions {
+  display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp .9s 1s var(--ease-out) forwards;
+}
+
+.btn-primary {
+  display: inline-block; padding: 17px 52px;
+  background: var(--dourado); color: var(--noir);
+  font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  font-family: 'DM Sans', sans-serif; font-weight: 500;
+  border: 1px solid var(--dourado);
+  transition: background .4s ease, color .4s ease;
+}
+.btn-primary:hover { background: transparent; color: var(--dourado); }
+
+.btn-ghost {
+  display: inline-block; padding: 17px 52px;
+  background: transparent; color: var(--creme);
+  font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  font-family: 'DM Sans', sans-serif; font-weight: 400;
+  border: 1px solid rgba(245,239,231,.22);
+  transition: border-color .4s ease;
+}
+.btn-ghost:hover { border-color: rgba(245,239,231,.55); }
+
+.hero-scroll {
+  position: absolute; bottom: 44px; left: 50%;
+  transform: translateX(-50%); z-index: 3;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  opacity: 0; animation: fadeIn 1s 1.5s ease forwards;
+}
+.hero-scroll span { font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: rgba(245,239,231,.3); }
+.scroll-line {
+  width: 1px; height: 52px;
+  background: linear-gradient(to bottom, rgba(183,141,82,.6), transparent);
+  animation: scrollPulse 2.2s infinite;
+}
+
+/* =============================================
+   SECTIONS BASE
+   ============================================= */
+.section-pad { padding: 128px 64px; }
+.section-label {
+  display: block; font-size: 10px; letter-spacing: .34em;
+  text-transform: uppercase; color: var(--dourado); margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 400; line-height: 1.13; color: var(--creme);
+}
+.section-title em { font-style: italic; color: var(--dourado-light); }
+.divider {
+  width: 48px; height: 1px;
+  background: var(--dourado); opacity: .55; margin: 28px 0;
+}
+.max-w { max-width: 1280px; margin: 0 auto; }
+
+/* =============================================
+   ABOUT
+   ============================================= */
+#sobre { background: #0D0B0A; }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 96px; align-items: center;
+}
+.about-text p {
+  font-size: 15px; line-height: 1.92;
+  color: var(--text-mid); margin-bottom: 22px; font-weight: 300;
+}
+.about-text p strong { color: var(--bege); font-weight: 400; }
+.about-text p:last-of-type { margin-bottom: 40px; }
+
+/* Photo grid */
+.about-photo-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  grid-template-rows: 260px 200px;
+  gap: 3px; position: relative;
+}
+.about-photo {
+  position: relative; overflow: hidden; background: var(--cafe-mid);
+}
+.about-photo:first-child {
+  grid-row: span 2;
+  grid-template-rows: auto;
+}
+.about-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  transition: transform .7s var(--ease-out), filter .7s ease;
+  filter: brightness(.75) saturate(.8);
+}
+.about-photo:hover img { transform: scale(1.05); filter: brightness(.85) saturate(.95); }
+.about-photo-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 28px 18px 14px;
+  background: linear-gradient(to top, rgba(11,11,11,.85) 0%, transparent 100%);
+  font-size: 9.5px; letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(183,141,82,.75);
+}
+.stats-row {
+  grid-column: span 2;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid rgba(183,141,82,.12);
+  margin-top: 3px;
+}
+.stat-item {
+  padding: 20px 16px; text-align: center;
+  border-right: 1px solid rgba(183,141,82,.1);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px; font-weight: 300; color: var(--dourado); line-height: 1;
+}
+.stat-desc {
+  display: block; margin-top: 6px;
+  font-size: 9px; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+
+/* =============================================
+   PRODUCTS
+   ============================================= */
+#cardapio { background: var(--noir); }
+.products-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 56px;
+}
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+}
+.product-card {
+  background: #100F0D;
+  position: relative; overflow: hidden;
+  transition: transform .4s var(--ease-out);
+}
+.product-card:hover { transform: translateY(-3px); }
+.product-img-wrap {
+  height: 270px; overflow: hidden;
+  position: relative; background: var(--cafe-mid);
+}
+.product-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  transition: transform .7s var(--ease-out), filter .7s ease;
+  filter: brightness(.72) saturate(.85);
+}
+.product-card:hover .product-img-wrap img {
+  transform: scale(1.07);
+  filter: brightness(.85) saturate(1);
+}
+.product-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(11,11,11,.92) 0%, rgba(11,11,11,.1) 55%, transparent 100%);
+}
+.product-body { padding: 22px 22px 26px; }
+.product-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; font-weight: 400;
+  color: var(--creme); margin-bottom: 8px;
+}
+.product-desc {
+  font-size: 12.5px; color: var(--text-muted);
+  line-height: 1.65; margin-bottom: 18px; font-weight: 300;
+}
+.product-footer {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.product-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px; font-weight: 300; color: var(--dourado);
+}
+.product-badge {
+  font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(183,141,82,.55); padding: 5px 12px;
+  border: 1px solid rgba(183,141,82,.22);
+  transition: border-color .3s ease, color .3s ease;
+}
+.product-card:hover .product-badge {
+  border-color: rgba(183,141,82,.5); color: var(--dourado);
+}
+
+/* =============================================
+   AMBIENT GALLERY
+   ============================================= */
+#ambiente { background: #0D0B0A; }
+.ambient-header { text-align: center; margin-bottom: 56px; }
+.ambient-gallery {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr 1fr;
+  grid-template-rows: 300px 280px;
+  gap: 3px;
+}
+.gallery-item {
+  position: relative; overflow: hidden; background: var(--cafe-mid);
+}
+.gallery-item:first-child { grid-row: span 2; }
+.gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  transition: transform .8s var(--ease-out), filter .8s ease;
+  filter: brightness(.68) saturate(.8);
+}
+.gallery-item:hover img { transform: scale(1.06); filter: brightness(.82) saturate(1); }
+.gallery-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 32px 22px 16px;
+  background: linear-gradient(to top, rgba(11,11,11,.88) 0%, transparent 100%);
+  font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(245,239,231,.5);
+}
+
+/* =============================================
+   TESTIMONIALS
+   ============================================= */
+#depoimentos { background: var(--noir); }
+.testimonials-header { text-align: center; margin-bottom: 60px; }
+.testimonials-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px;
+}
+.t-card {
+  background: #0F0E0C; padding: 36px 30px 32px;
+  border-top: 1px solid rgba(183,141,82,.18);
+  transition: border-top-color .4s ease;
+}
+.t-card:hover { border-top-color: rgba(183,141,82,.55); }
+.t-stars { display: flex; gap: 3px; margin-bottom: 20px; }
+.t-star { color: var(--dourado); font-size: 13px; line-height: 1; }
+.t-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16.5px; font-style: italic;
+  color: rgba(245,239,231,.72); line-height: 1.8;
+  margin-bottom: 26px; font-weight: 300;
+}
+.t-author { display: flex; align-items: center; gap: 14px; }
+.t-avatar {
+  width: 42px; height: 42px; border-radius: 50%; overflow: hidden;
+  background: var(--cafe); flex-shrink: 0;
+}
+.t-avatar img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.7) brightness(.85); }
+.t-initials {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--cafe-mid); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 14px; color: var(--bege);
+}
+.t-name { font-size: 12.5px; letter-spacing: .08em; color: var(--bege); font-weight: 400; }
+.t-role { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+/* =============================================
+   FEATURES
+   ============================================= */
+#diferenciais { background: #0D0B0A; }
+.features-header { text-align: center; margin-bottom: 60px; }
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px;
+}
+.feature-card {
+  background: #111009; padding: 40px 32px;
+  border-bottom: 2px solid transparent;
+  transition: border-color .4s ease, background .4s ease;
+}
+.feature-card:hover {
+  border-bottom-color: var(--dourado);
+  background: #14120F;
+}
+.feature-icon {
+  width: 52px; height: 52px;
+  border: 1px solid rgba(183,141,82,.22);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 26px; overflow: hidden;
+  transition: border-color .4s ease;
+  position: relative;
+}
+.feature-icon img {
+  width: 100%; height: 100%;
+  object-fit: cover; filter: brightness(.6) saturate(.7);
+  transition: filter .4s ease;
+}
+.feature-card:hover .feature-icon { border-color: rgba(183,141,82,.6); }
+.feature-card:hover .feature-icon img { filter: brightness(.85) saturate(.9); }
+.feature-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px; font-weight: 400; color: var(--creme); margin-bottom: 10px;
+}
+.feature-desc { font-size: 13px; color: var(--text-muted); line-height: 1.72; font-weight: 300; }
+
+/* =============================================
+   INSTAGRAM
+   ============================================= */
+#instagram { background: var(--noir); padding: 80px 64px; }
+.insta-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 28px;
+}
+.insta-handle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px; font-weight: 300; color: var(--bege);
+}
+.insta-grid {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px;
+}
+.insta-item {
+  aspect-ratio: 1; overflow: hidden;
+  position: relative; background: var(--cafe-mid);
+}
+.insta-item img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  transition: transform .6s var(--ease-out), filter .6s ease;
+  filter: brightness(.65) saturate(.75) sepia(.2);
+}
+.insta-item:hover img { transform: scale(1.1); filter: brightness(.85) saturate(1); }
+.insta-overlay {
+  position: absolute; inset: 0;
+  background: rgba(183,141,82,.08);
+  opacity: 0; transition: opacity .4s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.insta-overlay svg { width: 24px; height: 24px; fill: var(--dourado); opacity: .85; }
+.insta-item:hover .insta-overlay { opacity: 1; }
+
+/* =============================================
+   CTA FINAL
+   ============================================= */
+#reserva {
+  position: relative; min-height: 640px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.cta-bg-img {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=1600&q=80&auto=format&fit=crop');
+  background-size: cover; background-position: center;
+  filter: brightness(.35) saturate(.7);
+}
+.cta-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 50%, rgba(59,42,36,.75) 0%, rgba(11,11,11,.88) 70%),
+    linear-gradient(180deg, rgba(11,11,11,.5) 0%, rgba(11,11,11,.3) 50%, rgba(11,11,11,.7) 100%);
+}
+.cta-content {
+  position: relative; z-index: 2;
+  text-align: center; padding: 0 24px; max-width: 720px;
+}
+.cta-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 5.5vw, 60px);
+  font-weight: 400; color: var(--creme); line-height: 1.12;
+  margin-bottom: 22px; letter-spacing: -.015em;
+}
+.cta-title em { font-style: italic; color: var(--dourado-light); }
+.cta-ornament {
+  display: flex; align-items: center; justify-content: center;
+  gap: 22px; margin: 24px 0 32px;
+}
+.cta-ornament::before, .cta-ornament::after {
+  content: ''; display: block; height: 1px; width: 64px;
+  background: linear-gradient(to right, transparent, var(--dourado));
+}
+.cta-ornament::after { background: linear-gradient(to left, transparent, var(--dourado)); }
+.cta-ornament span { font-size: 14px; color: var(--dourado); opacity: .65; }
+.cta-sub {
+  font-size: 15px; color: rgba(245,239,231,.45);
+  letter-spacing: .04em; margin-bottom: 48px;
+  line-height: 1.75; font-weight: 300;
+}
+.btn-cta {
+  display: inline-block; padding: 20px 72px;
+  background: var(--dourado); color: var(--noir);
+  font-size: 11.5px; letter-spacing: .24em; text-transform: uppercase;
+  font-family: 'DM Sans', sans-serif; font-weight: 500;
+  border: 1px solid var(--dourado);
+  transition: background .4s ease, color .4s ease;
+}
+.btn-cta:hover { background: transparent; color: var(--dourado); }
+
+/* =============================================
+   FOOTER
+   ============================================= */
+footer {
+  background: #070706;
+  border-top: 1px solid rgba(183,141,82,.1);
+  padding: 72px 64px 44px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.1fr;
+  gap: 64px; margin-bottom: 60px;
+}
+.footer-brand-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px; letter-spacing: .28em;
+  text-transform: uppercase; font-weight: 300;
+  color: var(--creme); display: block; margin-bottom: 14px;
+}
+.footer-brand-logo span { color: var(--dourado); }
+.footer-brand p {
+  font-size: 13px; color: var(--text-muted);
+  line-height: 1.85; max-width: 240px; font-weight: 300;
+}
+.footer-social { display: flex; gap: 12px; margin-top: 24px; }
+.social-link {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(183,141,82,.22);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--text-muted);
+  transition: all .35s ease; font-weight: 400;
+}
+.social-link:hover { border-color: var(--dourado); color: var(--dourado); }
+.footer-col h4 {
+  font-size: 10px; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--dourado); margin-bottom: 22px;
+}
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 11px; }
+.footer-col ul li a {
+  font-size: 13.5px; color: var(--text-muted);
+  transition: color .3s ease; font-weight: 300;
+}
+.footer-col ul li a:hover { color: var(--bege); }
+.footer-col p { font-size: 13.5px; color: var(--text-muted); line-height: 1.85; font-weight: 300; }
+.footer-col strong { color: var(--bege); font-weight: 400; }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 32px; border-top: 1px solid rgba(183,141,82,.08);
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-bottom p { font-size: 11.5px; color: rgba(245,239,231,.2); letter-spacing: .05em; }
+
+/* =============================================
+   FLOATING BUTTON
+   ============================================= */
+#floatBtn {
+  position: fixed; bottom: 32px; right: 32px; z-index: 400;
+  background: var(--dourado); color: var(--noir);
+  padding: 15px 30px; font-size: 10.5px; letter-spacing: .22em;
+  text-transform: uppercase; font-family: 'DM Sans', sans-serif; font-weight: 500;
+  border: 1px solid var(--dourado);
+  box-shadow: 0 8px 48px rgba(183,141,82,.3);
+  transition: all .4s var(--ease-out), opacity .4s ease, transform .4s ease;
+  opacity: 0; transform: translateY(20px); pointer-events: none;
+}
+#floatBtn.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+#floatBtn:hover { background: transparent; color: var(--dourado); }
+
+/* =============================================
+   SCROLL REVEAL
+   ============================================= */
+.reveal {
+  opacity: 0; transform: translateY(40px);
+  transition: opacity .85s var(--ease-out), transform .85s var(--ease-out);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: .1s; }
+.reveal-d2 { transition-delay: .2s; }
+.reveal-d3 { transition-delay: .32s; }
+.reveal-d4 { transition-delay: .44s; }
+
+/* =============================================
+   KEYFRAMES
+   ============================================= */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: .6; transform: scaleY(1); }
+  50%       { opacity: .15; transform: scaleY(.65); }
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 1100px) {
+  .section-pad { padding: 100px 40px; }
+  #navbar { padding: 24px 40px; }
+  #navbar.scrolled { padding: 14px 40px; }
+  #instagram { padding: 72px 40px; }
+  footer { padding: 64px 40px 40px; }
+  .about-grid { gap: 60px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 44px; }
+}
+@media (max-width: 900px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
+  .ambient-gallery {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 260px 220px 220px;
+  }
+  .ambient-gallery .gallery-item:first-child { grid-row: span 1; grid-column: span 2; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .insta-grid { grid-template-columns: repeat(3, 1fr); }
+  .products-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+}
+@media (max-width: 768px) {
+  .section-pad { padding: 80px 22px; }
+  #navbar { padding: 18px 22px; }
+  #navbar.scrolled { padding: 12px 22px; }
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .mobile-menu { display: flex; }
+  #instagram { padding: 60px 22px; }
+  footer { padding: 56px 22px 36px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+  #floatBtn { bottom: 20px; right: 20px; padding: 13px 24px; }
+  .hero-title { font-size: clamp(34px, 9vw, 54px); }
+  .ambient-gallery {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 220px);
+  }
+  .ambient-gallery .gallery-item:first-child { grid-column: span 1; }
+}
+@media (max-width: 520px) {
+  .products-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .insta-grid { grid-template-columns: repeat(3, 1fr); }
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+
+/* =============================================
+   LOADING SKELETON (images)
+   ============================================= */
+.img-skeleton {
+  background: linear-gradient(90deg, #1a1510 25%, #241e18 50%, #1a1510 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#inicio" class="nav-logo">Noir <span>Atelier</span> Café</a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#cardapio">Cardápio</a></li>
+    <li><a href="#ambiente">Ambiente</a></li>
+    <li><a href="#depoimentos">Depoimentos</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#reserva" class="nav-cta">Reservar Mesa</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#sobre" class="menu-link">Sobre</a>
+  <a href="#cardapio" class="menu-link">Cardápio</a>
+  <a href="#ambiente" class="menu-link">Ambiente</a>
+  <a href="#depoimentos" class="menu-link">Depoimentos</a>
+  <a href="#reserva" class="menu-link">Reservar Mesa</a>
+</div>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero" id="inicio">
+  <div class="hero-bg-img img-skeleton" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Est. 2019 &nbsp;·&nbsp; São Paulo, Brasil</div>
+    <h1 class="hero-title">
+      O ritual perfeito começa<br>com um café <em>excepcional.</em>
+    </h1>
+    <p class="hero-sub">
+      Experimente cafés artesanais preparados com precisão,<br>sofisticação e identidade própria.
+    </p>
+    <div class="hero-actions">
+      <a href="#reserva" class="btn-primary">Reservar Mesa</a>
+      <a href="#cardapio" class="btn-ghost">Explorar Cardápio</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ==================== SOBRE ==================== -->
+<section class="section-pad" id="sobre">
+  <div class="max-w">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <span class="section-label">Nossa Essência</span>
+        <h2 class="section-title">Uma nova <em>definição</em><br>de café</h2>
+        <div class="divider"></div>
+        <p>O <strong>Noir Atelier Café</strong> nasceu da obsessão por perfeição. Cada xícara é fruto de um processo criterioso que começa na seleção de grãos single origin das melhores origens do mundo — Etiópia, Colômbia, Japão.</p>
+        <p>Nosso espaço foi projetado para ser um <strong>refúgio de sofisticação</strong> no coração da cidade. Aqui, o tempo desacelera e cada detalhe — da iluminação ao aroma — foi pensado para criar uma experiência sensorial completa.</p>
+        <p>Não servimos café. <strong>Criamos rituais.</strong></p>
+        <a href="#cardapio" class="btn-ghost" style="margin-top:8px; display:inline-block;">Conhecer o Cardápio</a>
+      </div>
+
+      <div class="about-photo-grid reveal reveal-d2">
+        <div class="about-photo">
+          <img
+            src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80&auto=format&fit=crop"
+            alt="Barista preparando café artesanal"
+            loading="lazy"
+            class="img-skeleton"
+            onload="this.classList.remove('img-skeleton')"
+          />
+          <div class="about-photo-label">Processo Artesanal</div>
+        </div>
+        <div class="about-photo">
+          <img
+            src="https://images.unsplash.com/photo-1611174275814-56dc08a7b1c7?w=500&q=80&auto=format&fit=crop"
+            alt="Grãos de café selecionados"
+            loading="lazy"
+            class="img-skeleton"
+            onload="this.classList.remove('img-skeleton')"
+          />
+          <div class="about-photo-label">Grãos Selecionados</div>
+        </div>
+        <div class="about-photo">
+          <img
+            src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=500&q=80&auto=format&fit=crop"
+            alt="Ambiente interno sofisticado"
+            loading="lazy"
+            class="img-skeleton"
+            onload="this.classList.remove('img-skeleton')"
+          />
+          <div class="about-photo-label">Design Exclusivo</div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-item">
+            <span class="stat-num">12+</span>
+            <span class="stat-desc">Origens</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">5★</span>
+            <span class="stat-desc">Avaliação</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">4k+</span>
+            <span class="stat-desc">Clientes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CARDÁPIO ==================== -->
+<section class="section-pad" id="cardapio">
+  <div class="max-w">
+    <div class="products-header reveal">
+      <div>
+        <span class="section-label">Cardápio</span>
+        <h2 class="section-title">Criações <em>assinadas</em></h2>
+      </div>
+      <a href="#reserva" class="btn-ghost" style="white-space:nowrap; align-self:flex-end;">Ver Cardápio Completo</a>
+    </div>
+    <div class="products-grid">
+
+      <!-- Card 1 -->
+      <div class="product-card reveal">
+        <div class="product-img-wrap img-skeleton">
+          <img
+            src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=600&q=80&auto=format&fit=crop"
+            alt="Espresso Signature"
+            loading="lazy"
+            onload="this.parentElement.classList.remove('img-skeleton'); this.style.opacity=1"
+            style="opacity:0; transition:opacity .6s ease"
+          />
+          <div class="product-img-overlay"></div>
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Espresso Signature</h3>
+          <p class="product-desc">Blend exclusivo de grãos ethiopianos extraído em temperatura de precisão. Crema dourada e sabor intenso.</p>
+          <div class="product-footer">
+            <span class="product-price">R$ 14</span>
+            <span class="product-badge">Signature</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="product-card reveal reveal-d1">
+        <div class="product-img-wrap img-skeleton">
+          <img
+            src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80&auto=format&fit=crop"
+            alt="Vanilla Latte"
+            loading="lazy"
+            onload="this.parentElement.classList.remove('img-skeleton'); this.style.opacity=1"
+            style="opacity:0; transition:opacity .6s ease"
+          />
+          <div class="product-img-overlay"></div>
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Vanilla Latte</h3>
+          <p class="product-desc">Espresso duplo com leite vaporizado artesanal e extrato puro de baunilha de Madagascar.</p>
+          <div class="product-footer">
+            <span class="product-price">R$ 22</span>
+            <span class="product-badge">Popular</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="product-card reveal reveal-d2">
+        <div class="product-img-wrap img-skeleton">
+          <img
+            src="https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=600&q=80&auto=format&fit=crop"
+            alt="Matcha Cream"
+            loading="lazy"
+            onload="this.parentElement.classList.remove('img-skeleton'); this.style.opacity=1"
+            style="opacity:0; transition:opacity .6s ease"
+          />
+          <div class="product-img-overlay"></div>
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Matcha Cream</h3>
+          <p class="product-desc">Ceremonial grade matcha do Japão com cream de leite integral texturizado à perfeição.</p>
+          <div class="product-footer">
+            <span class="product-price">R$ 26</span>
+            <span class="product-badge">Premium</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="product-card reveal">
+        <div class="product-img-wrap img-skeleton">
+          <img
+            src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&q=80&auto=format&fit=crop"
+            alt="Mocha Noir"
+            loading="lazy"
+            onload="this.parentElement.classList.remove('img-skeleton'); this.style.opacity=1"
+            style="opacity:0; transition:opacity .6s ease"
+          />
+          <div class="product-img-overlay"></div>
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Mocha Noir</h3>
+          <p class="product-desc">Espresso intenso com chocolate belga 72% cacau e chantilly levemente defumado.</p>
+          <div class="product-footer">
+            <span class="product-price">R$ 28</span>
+            <span class="product-badge">Exclusivo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="product-card reveal reveal-d1">
+        <div class="product-img-wrap img-skeleton">
+          <img
+            src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=80&auto=format&fit=crop"
+            alt="Croissant Artesanal"
+            loading="lazy"
+            onload="this.parentElement.classList.remove('img-skeleton'); this.style.opacity=1"
+            style="opacity:0; transition:opacity .6s ease"
+          />
+          <div class="product-img-overlay"></div>
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Croissant Artesanal</h3>
+          <p class="product-desc">Folhado com manteiga francesa AOP, assado na hora com camadas crocantes e miolo amanteigado.</p>
+          <div class="product-footer">
+            <span class="product-price">R$ 18</span>
+            <span class="product-badge">Artesanal</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="product-card reveal reveal-d2">
+        <div class="product-img-wrap img-skeleton">
+          <img
+            src="https://images.unsplash.com/photo-1546554137-f86b9593a222?w=600&q=80&auto=format&fit=crop"
+            alt="Cheesecake Premium"
+            loading="lazy"
+            onload="this.parentElement.classList.remove('img-skeleton'); this.style.opacity=1"
+            style="opacity:0; transition:opacity .6s ease"
+          />
+          <div class="product-img-overlay"></div>
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Cheesecake Premium</h3>
+          <p class="product-desc">Cream cheese Philadelphia com base de biscoito belga e coulis de frutas vermelhas importadas.</p>
+          <div class="product-footer">
+            <span class="product-price">R$ 32</span>
+            <span class="product-badge">Chef</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== AMBIENTE ==================== -->
+<section class="section-pad" id="ambiente">
+  <div class="max-w">
+    <div class="ambient-header reveal">
+      <span class="section-label">O Espaço</span>
+      <h2 class="section-title">Um ambiente pensado<br>para cada <em>sensação</em></h2>
+    </div>
+    <div class="ambient-gallery reveal reveal-d1">
+      <div class="gallery-item">
+        <img
+          src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=900&q=80&auto=format&fit=crop"
+          alt="Interior elegante do Noir Atelier Café"
+          loading="lazy"
+          class="img-skeleton"
+          onload="this.classList.remove('img-skeleton')"
+        />
+        <div class="gallery-label">Design Interior Exclusivo</div>
+      </div>
+      <div class="gallery-item">
+        <img
+          src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=600&q=80&auto=format&fit=crop"
+          alt="Iluminação quente e aconchegante"
+          loading="lazy"
+          class="img-skeleton"
+          onload="this.classList.remove('img-skeleton')"
+        />
+        <div class="gallery-label">Iluminação Quente</div>
+      </div>
+      <div class="gallery-item">
+        <img
+          src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=600&q=80&auto=format&fit=crop"
+          alt="Madeira nobre e detalhes premium"
+          loading="lazy"
+          class="img-skeleton"
+          onload="this.classList.remove('img-skeleton')"
+        />
+        <div class="gallery-label">Madeira Nobre</div>
+      </div>
+      <div class="gallery-item">
+        <img
+          src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=600&q=80&auto=format&fit=crop"
+          alt="Espaço de trabalho premium"
+          loading="lazy"
+          class="img-skeleton"
+          onload="this.classList.remove('img-skeleton')"
+        />
+        <div class="gallery-label">Espaço de Trabalho</div>
+      </div>
+      <div class="gallery-item">
+        <img
+          src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=600&q=80&auto=format&fit=crop"
+          alt="Detalhes artesanais do ambiente"
+          loading="lazy"
+          class="img-skeleton"
+          onload="this.classList.remove('img-skeleton')"
+        />
+        <div class="gallery-label">Detalhes Artesanais</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DEPOIMENTOS ==================== -->
+<section class="section-pad" id="depoimentos">
+  <div class="max-w">
+    <div class="testimonials-header reveal">
+      <span class="section-label">Depoimentos</span>
+      <h2 class="section-title">O que dizem<br>nossos <em>convidados</em></h2>
+    </div>
+    <div class="testimonials-grid">
+
+      <div class="t-card reveal">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-quote">"Uma experiência que vai muito além do café. O ambiente, o atendimento, cada detalhe é cuidado com precisão que raramente encontro em São Paulo."</p>
+        <div class="t-author">
+          <div class="t-avatar">
+            <img
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80&auto=format&fit=crop&crop=face"
+              alt="Ana Moreira"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <div class="t-name">Ana Moreira</div>
+            <div class="t-role">Arquiteta · São Paulo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-card reveal reveal-d1">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-quote">"O Espresso Signature é simplesmente o melhor café que já tomei no Brasil. A crema é perfeita, o sabor único. Vim de Curitiba só para isso."</p>
+        <div class="t-author">
+          <div class="t-avatar">
+            <img
+              src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&q=80&auto=format&fit=crop&crop=face"
+              alt="Rafael Costa"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <div class="t-name">Rafael Costa</div>
+            <div class="t-role">Chef de Cozinha · Curitiba</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-card reveal reveal-d2">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-quote">"Noir Atelier é o tipo de lugar que você descobre e quer guardar só para você. Um segredo de bom gosto no coração da cidade."</p>
+        <div class="t-author">
+          <div class="t-avatar">
+            <img
+              src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=80&q=80&auto=format&fit=crop&crop=face"
+              alt="Luiza Ferreira"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <div class="t-name">Luiza Ferreira</div>
+            <div class="t-role">Editora de Moda · São Paulo</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DIFERENCIAIS ==================== -->
+<section class="section-pad" id="diferenciais">
+  <div class="max-w">
+    <div class="features-header reveal">
+      <span class="section-label">Por que nos escolher</span>
+      <h2 class="section-title">O que nos torna<br><em>únicos</em></h2>
+    </div>
+    <div class="features-grid">
+
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?w=120&q=80&auto=format&fit=crop" alt="Grãos importados" loading="lazy" />
+        </div>
+        <h3 class="feature-name">Grãos Importados</h3>
+        <p class="feature-desc">Single origin selecionados de 12 regiões produtoras do mundo, com rastreabilidade completa da origem ao copo.</p>
+      </div>
+
+      <div class="feature-card reveal reveal-d1">
+        <div class="feature-icon">
+          <img src="https://images.unsplash.com/photo-1585241936939-be4099591252?w=120&q=80&auto=format&fit=crop" alt="Baristas especialistas" loading="lazy" />
+        </div>
+        <h3 class="feature-name">Baristas Especialistas</h3>
+        <p class="feature-desc">Certificados pela SCA com treinamento em Tokyo e Seul. Cada preparo é uma performance técnica e sensorial.</p>
+      </div>
+
+      <div class="feature-card reveal reveal-d2">
+        <div class="feature-icon">
+          <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=120&q=80&auto=format&fit=crop" alt="Ambiente exclusivo" loading="lazy" />
+        </div>
+        <h3 class="feature-name">Ambiente Exclusivo</h3>
+        <p class="feature-desc">Projetado por arquitetos premiados. Cada elemento foi selecionado para criar o ambiente ideal para sua experiência.</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=120&q=80&auto=format&fit=crop" alt="Wi-Fi premium" loading="lazy" />
+        </div>
+        <h3 class="feature-name">Wi-Fi Premium</h3>
+        <p class="feature-desc">Conexão dedicada de fibra de alta velocidade. Trabalhhe com conforto em nosso espaço sofisticado.</p>
+      </div>
+
+      <div class="feature-card reveal reveal-d1">
+        <div class="feature-icon">
+          <img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?w=120&q=80&auto=format&fit=crop" alt="Doces artesanais" loading="lazy" />
+        </div>
+        <h3 class="feature-name">Doces Artesanais</h3>
+        <p class="feature-desc">Confeitaria de nível internacional com produção própria diária. Ingredientes importados selecionados a dedo.</p>
+      </div>
+
+      <div class="feature-card reveal reveal-d2">
+        <div class="feature-icon">
+          <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=120&q=80&auto=format&fit=crop" alt="Experiência sensorial" loading="lazy" />
+        </div>
+        <h3 class="feature-name">Experiência Sensorial</h3>
+        <p class="feature-desc">Cada visita é orquestrada com cuidado — aroma, som, luz e sabor em perfeita harmonia cinematográfica.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== INSTAGRAM ==================== -->
+<div id="instagram">
+  <div class="max-w">
+    <div class="insta-header reveal">
+      <div>
+        <span class="section-label">Instagram</span>
+        <div class="insta-handle">@noiratelier.cafe</div>
+      </div>
+      <a href="#" class="btn-ghost" style="font-size:10.5px; padding:11px 26px;">Seguir</a>
+    </div>
+    <div class="insta-grid reveal reveal-d1">
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300&q=75&auto=format&fit=crop" alt="Post café espresso" loading="lazy" />
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+      </div>
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300&q=75&auto=format&fit=crop" alt="Post barista arte latte" loading="lazy" />
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+      </div>
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=300&q=75&auto=format&fit=crop" alt="Post cheesecake" loading="lazy" />
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+      </div>
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300&q=75&auto=format&fit=crop" alt="Post matcha" loading="lazy" />
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+      </div>
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=300&q=75&auto=format&fit=crop" alt="Post ambiente café" loading="lazy" />
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+      </div>
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1481833761820-0509d3217039?w=300&q=75&auto=format&fit=crop" alt="Post café noite" loading="lazy" />
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CTA FINAL ==================== -->
+<section id="reserva">
+  <div class="cta-bg-img"></div>
+  <div class="cta-overlay"></div>
+  <div class="cta-content">
+    <span class="section-label" style="display:block; margin-bottom:28px;">Reserve sua Experiência</span>
+    <h2 class="cta-title reveal">
+      Transforme sua pausa em<br>uma experiência <em>memorável.</em>
+    </h2>
+    <div class="cta-ornament reveal">
+      <span>◆</span>
+    </div>
+    <p class="cta-sub reveal">
+      Reservas disponíveis para grupos, eventos privados<br>e experiências exclusivas de degustação.
+    </p>
+    <div class="reveal reveal-d1">
+      <a href="mailto:reservas@noiratelier.com" class="btn-cta">Fazer Reserva</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer id="contato">
+  <div class="max-w">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#inicio" class="footer-brand-logo">Noir <span>Atelier</span> Café</a>
+        <p>Um espaço dedicado à arte do café excepcional, no coração de São Paulo. Onde cada detalhe importa.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Instagram">IG</a>
+          <a href="#" class="social-link" aria-label="Facebook">FB</a>
+          <a href="#" class="social-link" aria-label="TikTok">TK</a>
+          <a href="#" class="social-link" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#sobre">Sobre Nós</a></li>
+          <li><a href="#cardapio">Cardápio</a></li>
+          <li><a href="#ambiente">Ambiente</a></li>
+          <li><a href="#depoimentos">Depoimentos</a></li>
+          <li><a href="#reserva">Reservas</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Horário</h4>
+        <p>Segunda — Sexta<br><strong>08h às 21h</strong></p>
+        <p style="margin-top: 14px;">Sábado — Domingo<br><strong>09h às 22h</strong></p>
+        <p style="margin-top: 14px; font-size:11px; color: rgba(183,141,82,.55);">Feriados: consulte-nos</p>
+      </div>
+      <div class="footer-col">
+        <h4>Localização</h4>
+        <p>
+          Rua Oscar Freire, 987<br>
+          Jardins, São Paulo — SP<br>
+          CEP 01426-001
+        </p>
+        <p style="margin-top: 14px;">
+          <a href="tel:+5511999999999" style="color: var(--dourado);">(11) 99999-9999</a><br>
+          <a href="mailto:oi@noiratelier.com" style="color: var(--text-muted); font-size:12px;">oi@noiratelier.com</a>
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 Noir Atelier Café. Todos os direitos reservados.</p>
+      <p>Crafted with precision in São Paulo</p>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING BUTTON -->
+<a href="#reserva" id="floatBtn">☕ Pedir Agora</a>
+
+<!-- =============================================
+     JAVASCRIPT
+     ============================================= -->
+<script>
+/* ------ Custom Cursor ------ */
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top  = my + 'px';
+});
+
+(function animRing() {
+  rx += (mx - rx) * .1;
+  ry += (my - ry) * .1;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(animRing);
+})();
+
+/* Hide cursor on mobile */
+if ('ontouchstart' in window) {
+  cursor.style.display = 'none';
+  ring.style.display   = 'none';
+}
+
+/* ------ Navbar scroll + Float btn ------ */
+const navbar   = document.getElementById('navbar');
+const floatBtn = document.getElementById('floatBtn');
+
+window.addEventListener('scroll', () => {
+  const sy = window.scrollY;
+  navbar.classList.toggle('scrolled', sy > 72);
+  floatBtn.classList.toggle('visible', sy > 480);
+}, { passive: true });
+
+/* ------ Mobile Menu ------ */
+const hamburger  = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+hamburger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  hamburger.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+
+document.querySelectorAll('.menu-link').forEach(link => {
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ------ Hero bg parallax-style Ken Burns ------ */
+const heroBg = document.getElementById('heroBg');
+heroBg.classList.add('loaded'); // trigger CSS scale transition on load
+
+/* ------ Scroll Reveal ------ */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: .1, rootMargin: '0px 0px -48px 0px' });
+
+revealEls.forEach(el => revealObs.observe(el));
+
+/* ------ Smooth parallax on hero scroll ------ */
+window.addEventListener('scroll', () => {
+  const sy = window.scrollY;
+  if (heroBg && sy < window.innerHeight) {
+    heroBg.style.transform = `scale(1) translateY(${sy * 0.3}px)`;
+  }
+}, { passive: true });
+</script>
+</body>
+</html>
